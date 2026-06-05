@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f4f6f8;
+      color: #1a1a1a;
+    }
+
+    .calculator {
+      width: 100%;
+      max-width: 360px;
+      padding: 24px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin: 0 0 20px;
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    button {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    #sumBtn {
+      background: #3b82f6;
+      color: #fff;
+    }
+
+    #sumBtn:hover {
+      background: #2563eb;
+    }
+
+    #clearBtn {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    #clearBtn:hover {
+      background: #d1d5db;
+    }
+
+    #result {
+      min-height: 48px;
+      padding: 12px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    #result.error {
+      color: #dc2626;
+      background: #fef2f2;
+      border-color: #fecaca;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h1>Калькулятор</h1>
+
+    <label for="numberA">Число A</label>
+    <input type="text" id="numberA" autocomplete="off">
+
+    <label for="numberB">Число B</label>
+    <input type="text" id="numberB" autocomplete="off">
+
+    <div class="buttons">
+      <button type="button" id="sumBtn">Сумма</button>
+      <button type="button" id="clearBtn">Очистить</button>
+    </div>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const numberA = document.getElementById('numberA');
+    const numberB = document.getElementById('numberB');
+    const sumBtn = document.getElementById('sumBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const result = document.getElementById('result');
+
+    function parseNumber(value) {
+      const trimmed = value.trim();
+      if (trimmed === '') {
+        return NaN;
+      }
+      const num = Number(trimmed);
+      return Number.isFinite(num) ? num : NaN;
+    }
+
+    function showResult(text, isError) {
+      result.textContent = text;
+      result.classList.toggle('error', isError);
+    }
+
+    sumBtn.addEventListener('click', function () {
+      const a = parseNumber(numberA.value);
+      const b = parseNumber(numberB.value);
+
+      if (Number.isNaN(a) || Number.isNaN(b)) {
+        showResult('Введите два числа', true);
+        return;
+      }
+
+      showResult(String(a + b), false);
+    });
+
+    clearBtn.addEventListener('click', function () {
+      numberA.value = '';
+      numberB.value = '';
+      showResult('', false);
+    });
+  </script>
+</body>
+</html>
